@@ -30,7 +30,7 @@ const App = () => {
     //useEffect performs side effects -> like componentDidMount, componentDidUpdate and componentWillUnmount combined
     useEffect(
         () => {
-            searchMovies('Spiderman');
+            searchMovies(searchTerm);
         }, []
     )
 
@@ -48,7 +48,7 @@ const App = () => {
                 <img
                     src={SearchIcon}
                     alt="search"
-                    onClick={() => { }}
+                    onClick={() => searchMovies(searchTerm)}
                 />
             </div>
 
