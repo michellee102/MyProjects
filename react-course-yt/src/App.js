@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import './App.css';
 import SearchIcon from './search.svg';
+import MovieCard from "./MovieCard";
 
 //2cbbcd8a
 
@@ -15,14 +16,17 @@ const movie1 = {
 };
 
 const App = () => {
+    //we're setting the default state for movies to be an empty array
+    const [movies, setMovies] = useState([]);
+
+    // FETCH MOVIES FROM MOVIES API
     const searchMovies = async (title) => {
-        //fetch movies
         const response = await fetch(`${API_URL}&s=${title}`);
         const data = await response.json();
-
-        console.log(data.Search);
+        setMovies(data.Search);
     }
 
+    //useEffect performs side effects -> like componentDidMount, componentDidUpdate and componentWillUnmount combined
     useEffect(
         () => {
             searchMovies('Spiderman');
@@ -47,27 +51,24 @@ const App = () => {
                 />
             </div>
 
-            <div className="container">
-                <div className="movie">
-                    <div>
-                        <p>{movie1.Year}</p>
-                    </div>
-
-                    <div>
-                        <img
-                            // add check if an poster for movie is available
-                            // API call Poster property 'N/A for movies that dont have a poster'
-                            src={movie1.Poster !== 'N/A' ? movie1.Poster : 'https://via.placeholder.com/400'}
-                            alt={movie1.Title}
-                        />
-                    </div>
-
-                    <div>
-                        <span>{movie1.Type}</span>
-                        <h3>{movie1.Title}</h3>
-                    </div>
+{/* check if movies array has movies in it */}
+            {
+                movies?.length > 0 
+                ? (
+                <div className="container">
+                    <MovieCard movie1={movies[0]}/>
                 </div>
-            </div>
+                )   :
+                (
+                    <div className="empty">
+                        <h2>No movies found</h2>
+                    </div>
+                )
+            
+
+            }
+
+           
         </div>
     );
 }
