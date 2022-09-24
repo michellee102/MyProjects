@@ -18,6 +18,7 @@ const movie1 = {
 const App = () => {
     //we're setting the default state for movies to be an empty array
     const [movies, setMovies] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
 
     // FETCH MOVIES FROM MOVIES API
     const searchMovies = async (title) => {
@@ -41,8 +42,8 @@ const App = () => {
                 {/* input fields in react need 2 things that are crucial: value and onChange */}
                 <input
                     placeholder="Search for movies"
-                    value="Superman"
-                    onChange={() => { }}
+                    value={searchTerm}
+                    onChange={(e) =>  setSearchTerm(e.target.value) }
                 />
                 <img
                     src={SearchIcon}
