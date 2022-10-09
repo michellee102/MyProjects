@@ -7,5 +7,12 @@ const io = require('socket.io')(3001, {
 })
 
 io.on("connection", socket => {
-    console.log("connected")
+    // console.log("connected")
+
+    //Receive the changes from the client
+    socket.on('send-changes', delta => {
+        // console.log(delta)
+        //Send message to everyone connected except us 
+        socket.emit("receive-changes", delta)
+    })
 })
