@@ -6,6 +6,7 @@ export default function StartQuizzer() {
         <div className="room-container">
             <button className="btn-submit">
                 START THE QUIZ
+                name:
             </button>
         </div>
     )
