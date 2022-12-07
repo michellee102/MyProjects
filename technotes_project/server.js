@@ -3,10 +3,14 @@ const app = express()
 const path = require('path')
 const PORT = process.env.PORT || 3500
 
-app.use('/', express.static(path.join(__dirname, '/public')))
+app.use(express.json())
+
+app.use('/', express.static(path.join(__dirname, 'public')))
 
 app.use('/', require('./routes/root'))
 
+// Putting this after all the routes, and targetting all routes is kind of a
+// 'catch all'. If none of the above requests are requested it comes in this route.
 app.all('*', (req, res) => {
   res.status(404)
   if (req.accepts('html')) {
