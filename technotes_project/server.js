@@ -3,7 +3,22 @@ const app = express()
 const path = require('path')
 const PORT = process.env.PORT || 3500
 
+const { logger } = require('./middleware/logger')
+const errorHandler = require('./middleware/errorHandler')
+const cookieParser = require('cookie-parser')
+const cors = require('cors')
+
+const corsOptions = require('./config/corsOptions')
+
+app.use(logger)
+// Lets other resources do a request to this API. If no security is added then with this line it's an open API
+// 
+app.use(cors(corsOptions))
+
+// Lets our app receive and parse json data
 app.use(express.json())
+// Parses cookies
+app.use(cookieParser())
 
 app.use('/', express.static(path.join(__dirname, 'public')))
 
@@ -21,5 +36,7 @@ app.all('*', (req, res) => {
     res.type('txt').send('404 Not Found')
   }
 })
+
+app.use(errorHandler)
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
