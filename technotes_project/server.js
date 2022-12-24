@@ -18,6 +18,8 @@ const mongoose = require('mongoose')
 // To use an env variable, put process.env. infront of the var name.
 console.log(process.env.NODE_ENV)
 
+connectDB()
+
 app.use(logger)
 // Lets other resources do a request to this API. If no security is added then with this line it's an open API
 // 
@@ -47,4 +49,16 @@ app.all('*', (req, res) => {
 
 app.use(errorHandler)
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+// A mongoose listener when connection to DB is successfull
+mongoose.connection.once('open', () => {
+  console.log('Connected to MongoDB')
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+
+})
+
+// A mongoose listener when an error occurs
+mongoose.connection.on('error', err => {
+  console.log(err)
+  logEvents(`${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`,
+    'mongoErrLog.log')
+})
