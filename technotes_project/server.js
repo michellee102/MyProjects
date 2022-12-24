@@ -1,14 +1,22 @@
+// with .config() we can use the env variables throughout our package
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const path = require('path')
 const PORT = process.env.PORT || 3500
 
-const { logger } = require('./middleware/logger')
+const { logger, logEvents } = require('./middleware/logger')
 const errorHandler = require('./middleware/errorHandler')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 
 const corsOptions = require('./config/corsOptions')
+
+const connectDB = require('./config/dbConn')
+const mongoose = require('mongoose')
+
+// To use an env variable, put process.env. infront of the var name.
+console.log(process.env.NODE_ENV)
 
 app.use(logger)
 // Lets other resources do a request to this API. If no security is added then with this line it's an open API
