@@ -33,6 +33,7 @@ app.use(cookieParser())
 app.use('/', express.static(path.join(__dirname, 'public')))
 
 app.use('/', require('./routes/root'))
+app.use('/users', require('./routes/userRoutes'))
 
 // Putting this after all the routes, and targetting all routes is kind of a
 // 'catch all'. If none of the above requests are requested it comes in this route.
